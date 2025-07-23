@@ -1,0 +1,25 @@
+name: MLOps Pipeline
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+    - name: Train model
+      run: |
+        python src/train.py
+    - name: Lint code
+      run: |
+        pip install flake8
+        flake8 src/
