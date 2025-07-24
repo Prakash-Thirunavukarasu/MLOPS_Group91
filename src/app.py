@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request, Response
+from fastapi import FastAPI, Response
 from pydantic import BaseModel
 import pickle
 import logging
@@ -9,7 +9,8 @@ from prometheus_client import Counter, generate_latest, CONTENT_TYPE_LATEST
 
 
 # Logging
-logging.basicConfig(filename="logs/prediction.log", level=logging.INFO)
+logging.basicConfig(filename="logs/prediction.log",
+                    level=logging.INFO)
 
 
 # Load model
@@ -29,7 +30,8 @@ class IrisInput(BaseModel):
 
 
 # Prometheus metrics
-PREDICTION_COUNTER = Counter("prediction_requests_total", "Total prediction requests made")
+PREDICTION_COUNTER = Counter("prediction_requests_total",
+                             "Total prediction requests made")
 
 
 @app.post("/predict")
