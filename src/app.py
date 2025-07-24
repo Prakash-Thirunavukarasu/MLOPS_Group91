@@ -2,6 +2,7 @@ from fastapi import FastAPI, Response
 from pydantic import BaseModel
 import pickle
 import logging
+import os
 
 
 # Prometheus
@@ -9,6 +10,7 @@ from prometheus_client import Counter, generate_latest, CONTENT_TYPE_LATEST
 
 
 # Logging
+os.makedirs("logs", exist_ok=True)
 logging.basicConfig(filename="logs/prediction.log",
                     level=logging.INFO)
 
