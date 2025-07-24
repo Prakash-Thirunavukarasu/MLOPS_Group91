@@ -34,6 +34,11 @@ PREDICTION_COUNTER = Counter("prediction_requests_total",
                              "Total prediction requests made")
 
 
+@app.get("/")
+def read_root():
+    return {"message": "FastAPI is working!"}
+
+
 @app.post("/predict")
 def predict(input: IrisInput):
     PREDICTION_COUNTER.inc()
