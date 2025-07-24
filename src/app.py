@@ -1,9 +1,11 @@
-# src/app.py
-from fastapi import FastAPI
+from fastapi import FastAPI, Request, Response
 from pydantic import BaseModel
 import pickle
 import logging
-from prometheus_fastapi_instrumentator import Instrumentator
+
+
+# Prometheus
+from prometheus_client import Counter, generate_latest, CONTENT_TYPE_LATEST
 
 
 # Logging
@@ -18,10 +20,7 @@ with open("src/model.pkl", "rb") as f:
 app = FastAPI()
 
 
-# Prometheus metrics instrumentator
-Instrumentator().instrument(app).expose(app)  # NEW
-
-
+# Input schema
 class IrisInput(BaseModel):
     sepal_length: float
     sepal_width: float
@@ -29,8 +28,13 @@ class IrisInput(BaseModel):
     petal_width: float
 
 
+# Prometheus metrics
+PREDICTION_COUNTER = Counter("prediction_requests_total", "Total prediction requests made")
+
+
 @app.post("/predict")
 def predict(input: IrisInput):
+    PREDICTION_COUNTER.inc()
     data = [[
         input.sepal_length,
         input.sepal_width,
@@ -40,3 +44,8 @@ def predict(input: IrisInput):
     prediction = model.predict(data)[0]
     logging.info(f"Input: {input.dict()} | Prediction: {prediction}")
     return {"prediction": prediction}
+
+
+@app.get("/metrics")
+def metrics():
+    return Response(generate_latest(), media_type=CONTENT_TYPE_LATEST)
