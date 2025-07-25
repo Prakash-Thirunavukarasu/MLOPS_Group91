@@ -1,0 +1,3 @@
+INFO:root:Input: {'sepal_length': 5.0, 'sepal_width': 3.0, 'petal_length': 4.0, 'petal_width': 1.0} | Prediction: versicolor
+INFO:root:Input: {'sepal_length': 3.0, 'sepal_width': 2.0, 'petal_length': 3.0, 'petal_width': 5.0} | Prediction: virginica
+INFO:root:Input: {'sepal_length': 1.0, 'sepal_width': 5.0, 'petal_length': 1.0, 'petal_width': 3.0} | Prediction: setosa
