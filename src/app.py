@@ -3,6 +3,10 @@ from pydantic import BaseModel
 import pickle
 import logging
 import os
+from mlflow.tracking import MlflowClient
+import os
+
+os.environ["MLFLOW_REGISTRY_URI"] = "file:model_registry"
 
 
 # Prometheus
@@ -15,8 +19,15 @@ logging.basicConfig(filename="logs/prediction.log",
                     level=logging.INFO)
 
 
+# Latest model path
+client = MlflowClient()
+mv = client.get_model_version_by_alias("Iris_Classifier_Prod", "Production")
+experiment = client.get_experiment_by_name("Iris_Classification")
+model_path = 'mlruns/'+experiment.experiment_id+'/models/'+mv.source.split('/')[1]+'/artifacts/'+'model.pkl'
+
+
 # Load model
-with open("src/model.pkl", "rb") as f:
+with open(model_path, "rb") as f:
     model = pickle.load(f)
 
 
