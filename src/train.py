@@ -10,14 +10,14 @@ import os
 import preprocess
 import promote_model
 import warnings
-warnings.filterwarnings('ignore')
 import shutil
-
+warnings.filterwarnings('ignore')
 
 # Set up clean MLflow tracking and registry paths
 mlflow.set_tracking_uri("file:mlruns")
 os.environ["MLFLOW_REGISTRY_URI"] = "file:model_registry"
 mlflow.set_experiment("Iris_Classification")
+
 
 def train_models(data_folder="data/processed"):
     """
@@ -61,7 +61,7 @@ def train_models(data_folder="data/processed"):
             # Infer signature
             signature = infer_signature(X_train, model.predict(X_train))
             # Log model under run, but don't auto-register
-            mlflow.sklearn.log_model(model, name="model",input_example=input_example,signature=signature)
+            mlflow.sklearn.log_model(model, name="model", input_example=input_example, signature=signature)
 
             print(f"Accuracy: {accuracy:.4f} | Model logged under run ID: {run.info.run_id}")
 
@@ -71,8 +71,9 @@ def train_models(data_folder="data/processed"):
     # Promote the best model
     promote_model.promote_best_model()
 
-    #Removing the trash
+    # Removing the trash
     shutil.rmtree("mlruns/.trash", ignore_errors=True)
+
 
 if __name__ == "__main__":
     train_models()
