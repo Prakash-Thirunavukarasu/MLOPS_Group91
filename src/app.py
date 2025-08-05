@@ -64,7 +64,7 @@ def read_root():
     return {"message": "FastAPI is working!.Welcome to the Iris API"}
 
 
-@app.post("/predict") # Predict the input from the users
+@app.post("/predict")
 def predict(input: IrisInput):
     REQUEST_COUNT.inc()
     data = [[
