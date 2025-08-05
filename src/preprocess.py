@@ -2,8 +2,8 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 import os
 
-def preprocess_data(input_path="data/raw/iris.csv", 
-                    output_folder="data/processed"):
+
+def preprocess_data(input_path="data/raw/iris.csv", output_folder="data/processed"):
     print(f"Loading raw data from: {input_path}")
     df = pd.read_csv(input_path)
 
@@ -30,11 +30,10 @@ def preprocess_data(input_path="data/raw/iris.csv",
     # --- Step 2: Save Processed Data ---
     os.makedirs(output_folder, exist_ok=True)
     print(f"Saving processed data to: {output_folder}")
-
     train_df.to_csv(os.path.join(output_folder, "train.csv"), index=False)
     test_df.to_csv(os.path.join(output_folder, "test.csv"), index=False)
-
     print("Preprocessing complete. train.csv and test.csv created.")
+
 
 if __name__ == "__main__":
     preprocess_data()
