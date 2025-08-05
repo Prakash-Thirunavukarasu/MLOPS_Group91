@@ -1,23 +1,17 @@
 import mlflow
 from mlflow.tracking import MlflowClient
 import os
-
-
 os.environ["MLFLOW_REGISTRY_URI"] = "file:model_registry"
 
 
-def promote_best_model(experiment_name="Iris_Classification", 
-                       registered_model_name="Iris_Classifier_Prod"):
+def promote_best_model(experiment_name="Iris_Classification", registered_model_name="Iris_Classifier_Prod"):
     client = MlflowClient()
-
 
     # Get experiment ID
     experiment = client.get_experiment_by_name(experiment_name)
     if not experiment:
         print(f"Experiment '{experiment_name}' not found.")
         return
-    
-
     # Get best run by accuracy
     best_runs = client.search_runs(
         experiment_ids=[experiment.experiment_id],
@@ -31,7 +25,6 @@ def promote_best_model(experiment_name="Iris_Classification",
     best_run_id = best_run.info.run_id
     best_accuracy = best_run.data.metrics["accuracy"]
     print(f"Best run ID: {best_run_id} | Accuracy: {best_accuracy:.4f}")
-
 
     # Use run-based model URI (avoid copying artifacts)
     model_uri = f"runs:/{best_run_id}/model"
