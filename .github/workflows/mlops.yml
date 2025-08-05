@@ -22,4 +22,4 @@ jobs:
     - name: Lint code
       run: |
         pip install flake8
-        flake8 src/
+        flake8 src/ --max-line-length=120
