@@ -77,6 +77,7 @@ def predict(input: IrisInput):
     logging.info(f"Input: {input.dict()} | Prediction: {prediction}")
     return {"prediction": prediction}
 
+
 @app.get("/iris", response_model=List[IrisInput])
 def get_iris_data():
     REQUEST_COUNT.inc()
