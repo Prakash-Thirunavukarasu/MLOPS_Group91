@@ -75,8 +75,7 @@ def predict(input: IrisInput):
     ]]
     prediction = model.predict(data)[0]
     logging.info(f"Input: {input.dict()} | Prediction: {prediction}")
-    return {"prediction": prediction}  # Returns the prediction
-
+    return {"prediction": prediction}
 
 @app.get("/iris", response_model=List[IrisInput])
 def get_iris_data():
